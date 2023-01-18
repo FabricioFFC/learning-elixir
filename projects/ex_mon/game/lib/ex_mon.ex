@@ -35,13 +35,11 @@ defmodule ExMon do
   end
 
   defp computer_move(%{turn: :computer, status: :continue}) do
-    {:ok, Enum.random(@computer_moves) }
+    {:ok, Enum.random(@computer_moves)}
     |> do_move()
   end
 
   defp computer_move(_), do: :ok
-
-  defp handle_status(:game_nover, _move), do: Status.print_move_message(Game.info())
 
   defp handle_status(_other, move) do
     move

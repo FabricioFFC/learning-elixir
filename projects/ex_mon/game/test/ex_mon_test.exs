@@ -12,6 +12,7 @@ defmodule ExMonTest do
         moves: %{move_avg: :soco, move_heal: :cura, move_rnd: :chute},
         name: "Joel"
       }
+
       assert ExMon.create_player("Joel", :chute, :soco, :cura) == expected_response
     end
   end
