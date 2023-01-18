@@ -41,6 +41,8 @@ defmodule ExMon do
 
   defp computer_move(_), do: :ok
 
+  defp handle_status(:game_over, _move), do: Status.print_round_message(Game.info())
+
   defp handle_status(_other, move) do
     move
     |> Actions.fetch_move()
