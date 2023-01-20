@@ -32,7 +32,7 @@ defmodule ExMonTest do
 
   describe "make_move/1" do
     setup do
-      player = Player.build("Joel", :chute, :sock, :cura)
+      player = Player.build("Joel", :chute, :soco, :cura)
 
       capture_io(fn ->
         ExMon.start_game(player)
@@ -42,6 +42,33 @@ defmodule ExMonTest do
     end
 
     test "when the move is valid, do the move and the computer makes a move" do
+      messages =
+        capture_io(fn ->
+          ExMon.make_move(:chute)
+        end)
+
+      assert messages =~ "The Player attacked the computer dealing"
+    end
+
+    test "when the move is to heal, do the move and the computer makes a move" do
+      messages =
+        capture_io(fn ->
+          ExMon.make_move(:cura)
+        end)
+
+      assert messages =~ "The player healed itself"
+    end
+
+    test "when player reaches game over" do
+      messages =
+        capture_io(fn ->
+          1..15 |> Enum.each(fn _i -> ExMon.make_move(:chute) end)
+        end)
+
+      assert messages =~ "The game is over"
+    end
+
+    test "when the move is invalid it outputs an error message" do
       messages =
         capture_io(fn ->
           ExMon.make_move(:voadora)
