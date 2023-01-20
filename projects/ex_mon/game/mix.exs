@@ -29,7 +29,8 @@ defmodule ExMon.MixProject do
   defp deps do
     [
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.15.2", only: :test}
+      {:excoveralls, "~> 0.15.2", only: :test},
+      {:mock, "~> 0.3.7", only: :test}
     ]
   end
 end
