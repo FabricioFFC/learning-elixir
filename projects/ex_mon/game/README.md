@@ -23,6 +23,11 @@ ExMon.make_move(:soco)
 
 Just run: `mix test`
 
+If you need to also check the test coverage you can:
+
+* `mix coveralls.html` to generate the HTML report
+* `mix coveralls` to generate a report inline 
+
 ## Format
 
 To check the project style and format run: `mix format`
