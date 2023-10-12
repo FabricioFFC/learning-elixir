@@ -7,9 +7,14 @@ defmodule ImportService.Producer do
   def import(file_path) do
     {_, agent} = Statistics.start_link(name: :statistics)
 
+    fetch_data(file_path)
+    |> import_row(agent)
+    |> run_statistics(agent)
+  end
+
+  defp fetch_data(file_path) do
     File.stream!(file_path)
     |> CSV.parse_stream(skip_headers: true)
-    |> import_row(agent)
   end
 
   defp import_row(row, agent) do
@@ -17,6 +22,8 @@ defmodule ImportService.Producer do
     |> Stream.map(&save_row(&1, agent))
     |> Stream.run()
   end
+
+  defp run_statistics(_, agent), do: Statistics.get_statistics(agent)
 
   defp save_row(row, agent) do
     row
@@ -42,9 +49,7 @@ defmodule ImportService.Producer do
     |> String.trim()
   end
 
-  defp run_validations(geolocation) do
-    Geolocation.changeset(%Geolocation{}, geolocation)
-  end
+  defp run_validations(geolocation), do: Geolocation.changeset(%Geolocation{}, geolocation)
 
   defp handle_validations(%Ecto.Changeset{valid?: true} = changeset, agent) do
     Repo.insert(changeset)

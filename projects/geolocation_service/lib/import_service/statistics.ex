@@ -10,6 +10,14 @@ defmodule ImportService.Statistics do
     )
   end
 
+  def get_statistics(agent) do
+    %{
+      accepted_count: get_accepted_count(agent),
+      discarded_count: get_discarded_count(agent),
+      elapsed_time: get_elapsed_time(agent)
+    }
+  end
+
   def increment_accepted_count(agent) do
     Agent.update(agent, fn state ->
       %{state | accepted_count: state.accepted_count + 1}
