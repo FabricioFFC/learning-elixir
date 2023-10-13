@@ -9,7 +9,7 @@ defmodule ImportServiceProducerTest do
 
   describe "import" do
     test "import the valid rows" do
-      import_result = ImportService.Producer.import("test/fixtures/geoip.csv")
+      import_result = ImportService.Producer.import("test/support/fixtures/geoip.csv")
 
       count_result = Repo.aggregate(Geolocation, :count)
 

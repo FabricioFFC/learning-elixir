@@ -11,3 +11,5 @@ config :geolocation_service, GeolocationService.Repo,
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10,
   log: false
+
+config :logger, level: :warning

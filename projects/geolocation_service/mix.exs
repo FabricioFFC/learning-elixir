@@ -16,7 +16,7 @@ defmodule GeolocationService.MixProject do
   # Run "mix help compile.app" to learn about applications.
   def application do
     [
-      extra_applications: [:logger],
+      extra_applications: [:logger, :runtime_tools],
       mod: {GeolocationService.Application, []}
     ]
   end
@@ -27,9 +27,16 @@ defmodule GeolocationService.MixProject do
       {:ecto, "~> 3.10"},
       {:ecto_network, "~> 1.3"},
       {:ecto_sql, "~> 3.10"},
+      {:ex_machina, "~> 2.7", only: :test},
+      {:jason, "~> 1.2"},
       {:net_address, "~> 0.3.0"},
       {:nimble_csv, "~> 1.2"},
-      {:postgrex, "~> 0.17.3"}
+      {:phoenix, "~> 1.7.9"},
+      {:phoenix_live_dashboard, "~> 0.8.2"},
+      {:plug_cowboy, "~> 2.5"},
+      {:postgrex, "~> 0.17.3"},
+      {:telemetry_metrics, "~> 0.6"},
+      {:telemetry_poller, "~> 1.0"}
     ]
   end
 

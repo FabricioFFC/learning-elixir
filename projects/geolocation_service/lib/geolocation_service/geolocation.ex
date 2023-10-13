@@ -28,8 +28,8 @@ defmodule GeolocationService.Geolocation do
     geolocation
     |> cast(attrs, @params)
     |> validate_required(@required_params)
-    |> validate_number(:latitude, greater_than: -90, less_than: 90)
-    |> validate_number(:longitude, greater_than: -180, less_than: 180)
+    |> validate_latitude()
+    |> validate_longitude()
     |> validate_ip()
     |> unique_constraint(:ip_address)
   end
@@ -43,6 +43,30 @@ defmodule GeolocationService.Geolocation do
     "#{ip_address}"
     |> IP.from_string()
     |> validate_parsed_ip(changeset)
+  end
+
+  defp validate_latitude(changeset) do
+    get_field(changeset, :latitude)
+    |> validate_latitude_value(changeset)
+  end
+
+  def validate_latitude_value(latitude, changeset) do
+    case latitude >= -90 && latitude <= 90 do
+      true -> changeset
+      false -> add_error(changeset, :latitude, "must be between -90 and 90")
+    end
+  end
+
+  defp validate_longitude(changeset) do
+    get_field(changeset, :longitude)
+    |> validate_longitude_value(changeset)
+  end
+
+  def validate_longitude_value(longitude, changeset) do
+    case longitude >= -180 && longitude <= 180 do
+      true -> changeset
+      false -> add_error(changeset, :longitude, "must be between -180 and 180")
+    end
   end
 
   defp validate_parsed_ip({:ok, parsed_ip}, changeset) do
