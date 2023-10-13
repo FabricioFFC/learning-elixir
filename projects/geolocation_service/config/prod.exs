@@ -3,11 +3,23 @@ import Config
 # Configure your database
 config :geolocation_service, GeolocationService.Repo,
   url: System.fetch_env!("DATABASE_URL"),
+  ssl: false,
+  socket_options: [:inet6],
   pool_size: 10,
   log: false
 
 # Do not print debug messages in production
 config :logger, level: :info
+
+config :geolocation_service, GeolocationServiceWeb.Endpoint,
+  # Binding to loopback ipv4 address prevents access from other machines.
+  # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
+  http: [ip: {0, 0, 0, 0}, port: 8080],
+  check_origin: false,
+  code_reloader: true,
+  debug_errors: true,
+  secret_key_base: "n8j2zGROjQcw6JzUDNxngiLA31oTkOLgb74YTFaoll3FT511k2G0E5VMMCQnEEoZ",
+  watchers: []
 
 # ## SSL Support
 #
