@@ -43,7 +43,7 @@ defmodule GeolocationServiceGeolocationTest do
       changeset = Geolocation.changeset(%Geolocation{}, geolocation)
 
       assert errors_on(changeset) == %{
-               ip_address: ["is not a valid IP address", "can't be blank"],
+               ip_address: ["can't be blank"],
                latitude: ["must be between -90 and 90", "can't be blank"],
                longitude: ["must be between -180 and 180", "can't be blank"],
                mystery_value: ["can't be blank"]
@@ -51,15 +51,13 @@ defmodule GeolocationServiceGeolocationTest do
     end
 
     test "returns a changeset with an error when the IP address is invalid" do
-      geolocation = build(:geolocation, ip_address: "not an IP address")
+      geolocation = Geolocation.changeset(%Geolocation{}, params_for(:geolocation, ip_address: "not an IP address"))
 
-      changeset = Geolocation.changeset(geolocation)
+      {:error, changeset} = Repo.insert(geolocation)
 
       assert changeset.valid? == false
 
-      assert changeset.errors == [
-               ip_address: {"is not a valid IP address", []}
-             ]
+      assert changeset.errors == [ip_address: {"is invalid", [{:type, EctoNetwork.INET}, {:validation, :cast}]}]
     end
 
     test "returns a changeset with an error when the latitude is -91" do

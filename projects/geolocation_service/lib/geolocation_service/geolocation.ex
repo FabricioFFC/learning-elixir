@@ -30,19 +30,7 @@ defmodule GeolocationService.Geolocation do
     |> validate_required(@required_params)
     |> validate_latitude()
     |> validate_longitude()
-    |> validate_ip()
     |> unique_constraint(:ip_address)
-  end
-
-  defp validate_ip(changeset) do
-    get_field(changeset, :ip_address)
-    |> validate_ip_address(changeset)
-  end
-
-  defp validate_ip_address(ip_address, changeset) do
-    "#{ip_address}"
-    |> IP.from_string()
-    |> validate_parsed_ip(changeset)
   end
 
   defp validate_latitude(changeset) do
@@ -67,20 +55,5 @@ defmodule GeolocationService.Geolocation do
       true -> changeset
       false -> add_error(changeset, :longitude, "must be between -180 and 180")
     end
-  end
-
-  defp validate_parsed_ip({:ok, parsed_ip}, changeset) do
-    case IP.is_ip(parsed_ip) do
-      true -> changeset
-      false -> add_ip_address_error(changeset)
-    end
-  end
-
-  defp validate_parsed_ip({:error, _}, changeset) do
-    add_ip_address_error(changeset)
-  end
-
-  defp add_ip_address_error(changeset) do
-    add_error(changeset, :ip_address, "is not a valid IP address")
   end
 end
