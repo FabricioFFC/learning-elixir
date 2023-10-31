@@ -46,6 +46,14 @@ You can also import a csv using `iex` following the steps below:
 2. Enter on iex: `iex -S mix`
 3. Download a CSV file and import it: `ImportService.Producer.import([CSV_FILE])`
 
+
+### Running tests locally
+
+To run the tests we need to follow the steps below:
+
+1. Connect in the app container: `docker compose exec app sh`
+2. Run the tests: `mix test`
+
 ## Testing the app on Fly.io
 
 This app available through Fly.io on https://geolocation-app.fly.dev.
