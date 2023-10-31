@@ -18,7 +18,7 @@ config :geolocation_service, GeolocationServiceWeb.Endpoint,
   check_origin: false,
   code_reloader: true,
   debug_errors: true,
-  secret_key_base: "n8j2zGROjQcw6JzUDNxngiLA31oTkOLgb74YTFaoll3FT511k2G0E5VMMCQnEEoZ",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   watchers: []
 
 # ## SSL Support

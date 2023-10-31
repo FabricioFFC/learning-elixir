@@ -14,7 +14,7 @@ config :geolocation_service, GeolocationServiceWeb.Endpoint,
     layout: false
   ],
   pubsub_server: GeolocationApi.PubSub,
-  live_view: [signing_salt: "sy2G0uGu"]
+  live_view: [signing_salt: System.fetch_env!("SIGNING_SALT")]
 
 # Configures Elixir's Logger
 config :logger, :console,
